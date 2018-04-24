@@ -14,7 +14,7 @@ Adding new commands or temporal events is as simple as inheriting from an abstra
 You can edit the following parameters in the `settings.py` file:
 - **COMMAND_PREFIX**: The prefix that will be used for all commands. It's a `!` by default, but you can change it to anything else. It doesn't have to be a single-character prefix.
 - **BOT_TOKEN**: The private token for your bot. Make sure to keep it secret. I usually put it in an environment variable, but whatever works for you.
-- **NOW_PLAYING**: The text that the bot will display as its now playing status. You can set it to anything falsy (`""`, `None`, `False`...) to disable it.
+- **NOW_PLAYING**: The text that the bot will display as its now playing status. You can set it to anything *falsy* (`""`, `None`, `False`, ...) to disable it.
 - **BASE_DIR**: This isn't really a setting, but you can use to build relative paths inside your code. It points to the directory where the settings file itself is stored.
 
 # Running your bot
@@ -27,7 +27,7 @@ However, this template aims to simplify that process by letting you add new comm
 ## How to add a new command
 Let's say you want to create a `!random` command that allows your users to roll a random number between a lower and an upper bound. We'll see how:
 
-### 1. Add a new file in the `commands` directory
+### 1. Add a new file to the `commands` directory
 You can name it any way you want, but you probably want to give it a meaningful name. So, we'll start by adding a `random_number.py` file.
 
 ### 2. Define a new command class in that file
@@ -60,7 +60,7 @@ The command description will be displayed if someone uses `!commands`. The list 
 
 For instance, if you define `params` the same way we just did, your command will **never** run if someone calls `!random` with less than two parameters, and you don't even have to worry about that.
 
-If your command doesn't require any parameters, you can set `params` to anything falsy (an empty list or `None` will do).
+If your command doesn't require any parameters, you can set `params` to anything *falsy* (an empty list or `None` will do).
 
 ### 4. Implement `handle()`
 The `handle` method will contain the actual logic for your command. It must accept the following parameters:
@@ -96,4 +96,4 @@ Have a look at [commands/example_command.py](https://github.com/agubelu/discord-
 ### Isn't this a bit overkill?
 Depends. If you have to implement a single, simple command, practicality beats purity. 
 
-But if you want your bot to have many commands with minimal effort, each one with a different amount of required parameters, and a self-updating help command, it is definitely worth it. Don't do spaghetti code.
+But if you want your bot to have many commands with minimal effort, keeping everything organized and tidy, plus a self-updating help command, it is definitely worth it. Don't do spaghetti code.

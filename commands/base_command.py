@@ -17,6 +17,6 @@ class BaseCommand:
         desc += f": {description}."
         self.description = desc
 
-    # Every event must override this method
+    # Every command must override this method
     async def handle(self, params, message, client):
         raise NotImplementedError  # To be defined by every command
