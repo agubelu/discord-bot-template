@@ -55,7 +55,7 @@ async def try_upload_file(client, channel, file_path, content=None, delete_after
         try:
             sent_msg = await client.send_file(channel, file_path, content=content)
         except HTTPException:
-            retries += 1
+            used_retries += 1
 
     if delete_after_send:
         remove(file_path)
