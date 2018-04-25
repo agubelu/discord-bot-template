@@ -34,11 +34,11 @@ You can name it any way you want, but you probably want to give it a meaningful 
 Now that you've created a file for the new command, you have to create a new class **that inherits from BaseCommand**, just like this:
 ``` py
 class Random(BaseCommand):
-	def  __init__(self):
-		...  # TO-DO
+    def  __init__(self):
+        ...  # TO-DO
 
-	async def handle(self, params, message, client):
-		...  # TO-DO
+    async def handle(self, params, message, client):
+        ...  # TO-DO
 ```
 Please note that, unlike the name for the file itself, **THE CLASS NAME MATTERS**. Every class name will generate a command named after it, but in lowercase. So, our `Random` class will generate a `random` command.
 
@@ -46,13 +46,13 @@ Please note that, unlike the name for the file itself, **THE CLASS NAME MATTERS*
 The BaseCommand class requires a description and a list of parameters that your command will accept as input. You can pass them just like this:
 ``` py
 class Random(BaseCommand):
-	def  __init__(self):
-		description =  "Generates a random number between two given numbers"
-		params = ["lower", "upper"]
-		super().__init__(description, params)
+    def  __init__(self):
+        description =  "Generates a random number between two given numbers"
+        params = ["lower", "upper"]
+        super().__init__(description, params)
 
-	async def handle(self, params, message, client):
-		...  # TO-DO
+    async def handle(self, params, message, client):
+        ...  # TO-DO
 ```
 In fact, you can use the exact same code for all your commands, just changing the value for `description` and `params`.
 
@@ -73,18 +73,18 @@ Let's see a **very naïve** implementation for the `!random` command, without pe
 from random import randint
 
 class Random(BaseCommand):
-	def  __init__(self):
-		description =  "Generates a random number between two given numbers"
-		params = ["lower", "upper"]
-		super().__init__(description, params)
+    def  __init__(self):
+        description =  "Generates a random number between two given numbers"
+        params = ["lower", "upper"]
+        super().__init__(description, params)
 
-	async def handle(self, params, message, client):
-		lower_bound =  int(params[0])
-		upper_bound =  int(params[1])
-		rolled = randint(lower_bound, upper_bound)
-		
-		msg = f" You rolled a {rolled}!"
-		await client.send_message(message.channel, msg)
+    async def handle(self, params, message, client):
+        lower_bound =  int(params[0])
+        upper_bound =  int(params[1])
+        rolled = randint(lower_bound, upper_bound)
+
+        msg = f"{message.author.mention}, you rolled a {rolled}!"
+        await client.send_message(message.channel, msg)
 ```
 
 Of course, it might fail if the user provides something other than a number, or if lower_bound > upper_bound, but this is enough for the command to work.
