@@ -1,8 +1,12 @@
+
 # Discord bot template
 ## tl;dr
 This is a code template that will help you build a Discord bot in a quick and elegant way. You just have to tweak a few settings to your liking, add your commands, and you'll be ready to go.
 
 Adding new commands or temporal events is as simple as inheriting from an abstract class, which helps to keeping everything clean and simple.
+
+Check [example_command.py](https://github.com/agubelu/discord-bot-template/blob/master/commands/example_command.py) and [example_event.py](https://github.com/agubelu/discord-bot-template/blob/master/events/example_event.py) for an example on how to implement commands and events, or keep reading for more detailed info.
+
 ## Pre-requisites
 - Python >= 3.6 (though you can use 3.5 if you remove the [f-strings](https://docs.python.org/3/whatsnew/3.6.html#whatsnew36-pep498))
 - You need to [register your bot and get a Discord API token](https://discordapp.com/developers/applications/me).
@@ -103,3 +107,65 @@ Have a look at [commands/example_command.py](https://github.com/agubelu/discord-
 Depends. If you have to implement a single, simple command, practicality beats purity. 
 
 But if you want your bot to have many commands with minimal effort, keeping everything organized and tidy, plus a self-updating help command, it is definitely worth it. Don't do spaghetti code.
+
+# Adding events
+This template also allows you to define temporal events for your bot that will run every X minutes. You can configure a different interval for each event.
+
+Adding a new event is very similar to adding a command:
+
+### 1. Add a new file to the `events` directory
+Again, you can name the new file as you desire. For instance:`the_time.py`.
+
+### 2. Define a new event class in that file
+In this case, your event class should inherit from BaseEvent:
+``` py
+from events.base_event import BaseEvent
+
+class TheTime(BaseEvent):
+    def __init__(self):
+        ...  # TO-DO
+
+    async def run(self, client):
+        ...  # TO-DO
+```
+The class name doesn't matter at all for events.
+
+### 3. Implement `__init__`
+For events, the only parameter you need to pass to BaseEvent is the interval in minutes:
+``` py
+from events.base_event import BaseEvent
+
+class TheTime(BaseEvent):
+    def __init__(self):
+        interval_minutes = 60  # Set the interval for this event
+        super().__init__(interval_minutes)
+
+    async def run(self, client):
+        ...  # TO-DO
+```
+
+### 4. Implement `run()`
+The `run` method will be executed every time the event is fired. Since it isn't caused by a user, only the `client` parameter is provided:
+- **client**: The [discord.py Client object](https://discordpy.readthedocs.io/en/latest/api.html#client) for your bot, required to send a message, among other things.
+``` py
+from events.base_event import BaseEvent
+from utils import get_channel
+from datetime import datetime
+
+class TheTime(BaseEvent):
+    def __init__(self):
+        interval_minutes = 60  # Set the interval for this event
+        super().__init__(interval_minutes)
+
+    async def run(self, client):
+        now = datetime.now()
+
+        if now.hour == 12:
+            msg = "It's high noon!"
+        else:
+            msg = f"It is {now.hour}:{now.minute}"
+
+        channel = get_channel(client, "general")
+        await client.send_message(channel, msg)
+```
+Wondering what `get_channel()` does? Keep reading!
