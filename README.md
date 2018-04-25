@@ -33,6 +33,8 @@ You can name it any way you want, but you probably want to give it a meaningful 
 ### 2. Define a new command class in that file
 Now that you've created a file for the new command, you have to create a new class **that inherits from BaseCommand**, just like this:
 ``` py
+from commands.base_command import BaseCommand
+
 class Random(BaseCommand):
     def  __init__(self):
         ...  # TO-DO
@@ -45,6 +47,8 @@ Please note that, unlike the name for the file itself, **THE CLASS NAME MATTERS*
 ### 3. Implement `__init__`
 The BaseCommand class requires a description and a list of parameters that your command will accept as input. You can pass them just like this:
 ``` py
+from commands.base_command import BaseCommand
+
 class Random(BaseCommand):
     def  __init__(self):
         description =  "Generates a random number between two given numbers"
@@ -70,6 +74,7 @@ The `handle` method will contain the actual logic for your command. It must acce
 
 Let's see a **very naïve** implementation for the `!random` command, without performing any proper checks:
 ``` py
+from commands.base_command import BaseCommand
 from random import randint
 
 class Random(BaseCommand):
