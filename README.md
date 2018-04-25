@@ -7,7 +7,7 @@ Adding new commands or temporal events is as simple as inheriting from an abstra
 - You need to [register your bot and get a Discord API token](https://discordapp.com/developers/applications/me).
 - You should be at least familiar with Python 3 and with the basics of the [discord.py](https://github.com/Rapptz/discord.py) [(docs)](https://discordpy.readthedocs.io/en/latest/) library.
 - You should also have some basic knowledge about what asynchronous programming is and [how it works in Python](https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/), but to be fairly honest you don't really have to in order to make this thing work. You can just throw in `async` or `await` whenever Python complains.
-- You should know what a `virtualenv` is and how to set up one. Check [this](http://docs.python-guide.org/en/latest/dev/virtualenvs/) out if the file name `requirements.txt` doesn't speak to you.
+- You should know what a `virtualenv` is and how to set up one. Check [this](http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv) out if the file name `requirements.txt` doesn't speak to you.
 
 
 # Basic settings
@@ -36,7 +36,7 @@ Now that you've created a file for the new command, you have to create a new cla
 from commands.base_command import BaseCommand
 
 class Random(BaseCommand):
-    def  __init__(self):
+    def __init__(self):
         ...  # TO-DO
 
     async def handle(self, params, message, client):
@@ -50,8 +50,8 @@ The BaseCommand class requires a description and a list of parameters that your 
 from commands.base_command import BaseCommand
 
 class Random(BaseCommand):
-    def  __init__(self):
-        description =  "Generates a random number between two given numbers"
+    def __init__(self):
+        description = "Generates a random number between two given numbers"
         params = ["lower", "upper"]
         super().__init__(description, params)
 
@@ -78,14 +78,14 @@ from commands.base_command import BaseCommand
 from random import randint
 
 class Random(BaseCommand):
-    def  __init__(self):
-        description =  "Generates a random number between two given numbers"
+    def __init__(self):
+        description = "Generates a random number between two given numbers"
         params = ["lower", "upper"]
         super().__init__(description, params)
 
     async def handle(self, params, message, client):
-        lower_bound =  int(params[0])
-        upper_bound =  int(params[1])
+        lower_bound = int(params[0])
+        upper_bound = int(params[1])
         rolled = randint(lower_bound, upper_bound)
 
         msg = f"{message.author.mention}, you rolled a {rolled}!"
