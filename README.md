@@ -1,4 +1,5 @@
 
+
 # Discord bot template
 ## tl;dr
 This is a code template that will help you build a Discord bot in a quick and elegant way. You just have to tweak a few settings to your liking, add your commands, and you'll be ready to go.
@@ -37,7 +38,7 @@ You can name it any way you want, but you probably want to give it a meaningful 
 
 ### 2. Define a new command class in that file
 Now that you've created a file for the new command, you have to create a new class **that inherits from BaseCommand**, just like this:
-``` py
+```python
 from commands.base_command import BaseCommand
 
 class Random(BaseCommand):
@@ -51,7 +52,7 @@ Please note that, unlike the name for the file itself, **THE CLASS NAME MATTERS*
 
 ### 3. Implement `__init__`
 The BaseCommand class requires a description and a list of parameters that your command will accept as input. You can pass them just like this:
-``` py
+```python
 from commands.base_command import BaseCommand
 
 class Random(BaseCommand):
@@ -78,7 +79,7 @@ The `handle` method will contain the actual logic for your command. It must acce
 - **client**: The [discord.py Client object](https://discordpy.readthedocs.io/en/latest/api.html#client) for your bot, required to reply to a message, among other things.
 
 Let's see a **very naïve** implementation for the `!random` command, without performing any proper checks:
-``` py
+```python
 from commands.base_command import BaseCommand
 from random import randint
 
@@ -118,7 +119,7 @@ Again, you can name the new file as you desire. For instance:`the_time.py`.
 
 ### 2. Define a new event class in that file
 In this case, your event class should inherit from BaseEvent:
-``` py
+```python
 from events.base_event import BaseEvent
 
 class TheTime(BaseEvent):
@@ -132,7 +133,7 @@ The class name doesn't matter at all for events.
 
 ### 3. Implement `__init__`
 For events, the only parameter you need to pass to BaseEvent is the interval in minutes:
-``` py
+```python
 from events.base_event import BaseEvent
 
 class TheTime(BaseEvent):
@@ -147,7 +148,7 @@ class TheTime(BaseEvent):
 ### 4. Implement `run()`
 The `run` method will be executed every time the event is fired. Since it isn't caused by a user, only the `client` parameter is provided:
 - **client**: The [discord.py Client object](https://discordpy.readthedocs.io/en/latest/api.html#client) for your bot, required to send a message, among other things.
-``` py
+```python
 from events.base_event import BaseEvent
 from utils import get_channel
 from datetime import datetime
@@ -169,3 +170,46 @@ class TheTime(BaseEvent):
         await client.send_message(channel, msg)
 ```
 Wondering what `get_channel()` does? Keep reading!
+
+# Aditional utilities
+The `utils` package contains a few methods that you might find useful:
+
+## `get_rel_path`
+Returns the absolute path for a path relative to the folder the bot is located in.
+
+Parameters:
+- **rel_path**: The relative path.
+
+Example:
+- If your bot is located in `/home/agu/mybot`, calling `get_rel_path("storage")` will return `/home/agu/mybot/storage`.
+
+## `get_emoji`
+Sadly, discord.py doesn't allow you to send emojis by writing their aliases in the message. Instead, you have to send the actual emoji character in the message, which isn't very convenient.
+
+If you need to *emojize* multiple emojis in one string at once, check the [emoji package](https://pypi.org/project/emoji/) out.
+
+This method allows you to obtain an emoji character for an alias.
+Parameters:
+- **emoji_name**: Name for the emoji you want to send, as defined in discord, with or without colons.
+- **fail_silently**: If true, it will return `emoji_name` if such an emoji does not exist. If false, it will raise `ValueError` if the emoji cannot be found. Defaults to false.
+
+Example:
+- `get_emoji(":ok_hand:")` will return `👌`.
+- `get_emoji("ok_hand")` will return `👌` as well.
+- `get_emoji(":afafaff:")` will raise `ValueError`.
+- `get_emoji(":afafaff:", fail_silently=True)` will return `":afafaff:"`.
+
+## `get_channel`
+You can use this method to quickly search for a channel by one of its attributes. For example, if your bot will reside in only one server, looking for a channel by name is more clear than doing so by its ID (though you'll have to update your code if the channel name changes).
+
+Will raise `ValueError` if no such channel can be found.
+
+Parameters:
+- **client**: The discord.py client for your bot.
+- **value**: The desired value for the attribute you're searching for. For instance, the channel name or ID.
+- **attribute**: The name of the search attribute, for instance, `"name"` or `"id"`. You can use any attribute a [discord.py Channel object](https://discordpy.readthedocs.io/en/latest/api.html#channel) has. Defaults to `"name"`.
+
+Examples:
+- `get_channel(client, "general")` will return the first found channel with name `general`.
+- `get_channel(client, "123456", "id")` will return the channel with ID 123456, if it exists.
+- `get_channel(client, "non-existing-channel")` will raise `ValueError` if no channel that your bot has access to has that name.
