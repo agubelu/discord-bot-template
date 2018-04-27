@@ -71,8 +71,7 @@ def main():
         await common_handle_message(after)
 
     # Finally, set the bot running
-    t = Process(target=client.run, args=(settings.BOT_TOKEN,))
-    t.start()
+    client.run(settings.BOT_TOKEN)
 
 ########################################################################################################################
 
