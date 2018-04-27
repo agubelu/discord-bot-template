@@ -47,17 +47,20 @@ def main():
         n_ev = 0
         for ev in BaseEvent.__subclasses__():
             event = ev()
-            sched.add_job(event.run, 'interval', (client,), minutes=event.interval_minutes)
+            sched.add_job(event.run, 'interval', (client,), 
+                          minutes=event.interval_minutes)
             n_ev += 1
         sched.start()
         print(f"{n_ev} events loaded", flush=True)
 
     # The message handler for both new message and edits
     async def common_handle_message(message):
-        if message.content.startswith(settings.COMMAND_PREFIX) and message.content != settings.COMMAND_PREFIX:
+        if message.content.startswith(settings.COMMAND_PREFIX) \
+          and message.content != settings.COMMAND_PREFIX:
             cmd_split = message.content[len(settings.COMMAND_PREFIX):].split()
             try:
-                await message_handler.handle_command(cmd_split[0].lower(), cmd_split[1:], message, client)
+                await message_handler.handle_command(cmd_split[0].lower(), 
+                                      cmd_split[1:], message, client)
             except:
                 print("Error while handling message", flush=True)
                 raise
@@ -73,7 +76,7 @@ def main():
     # Finally, set the bot running
     client.run(settings.BOT_TOKEN)
 
-########################################################################################################################
+###############################################################################
 
 
 if __name__ == "__main__":
