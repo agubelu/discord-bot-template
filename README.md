@@ -213,3 +213,41 @@ Examples:
 - `get_channel(client, "general")` will return the first found channel with name `general`.
 - `get_channel(client, "123456", "id")` will return the channel with ID 123456, if it exists.
 - `get_channel(client, "non-existing-channel")` will raise `ValueError` if no channel that your bot has access to has that name.
+
+## `send_in_channel`
+This method is a [coroutine](https://docs.python.org/3/library/asyncio-task.html#coroutine).
+
+It allows you to quickly send a message in a channel with a certain name. It's particularly useful if your bot is located in a single server and you can access channels directly by name.
+
+You can pass it any positional arguments that you would normally pass to `client.send_message()`.
+
+Since it uses `get_channel` it will also raise `ValueError` if no such channel can be found.
+
+Parameters:
+- **client**: The discord.py client for your bot.
+- **channel_name**: The name of the channel you want to send a message in.
+- **\*args**: Other positional arguments to pass to `client.send_message()`
+
+Examples:
+- `await send_in_channel(client, "general", "Hey")` will send `Hey` to channel `#general`.
+
+## `try_upload_file`
+This method is a [coroutine](https://docs.python.org/3/library/asyncio-task.html#coroutine).
+
+Likewise, it is also likely that you will need to upload a picture or a file to some channel. This method allows you to do it with a single line of code, sending an error message if it fails to do it for any reason.
+
+Parameters:
+- **client**: The discord.py client for your bot.
+- **channel**: The discord.py channel object to send the file to.
+- **file_path**: The absolute path for the file you want to send.
+- **content**: The aditional message string to send alongside the file. Defaults to `None`.
+- **delete_after_send**: Whether or not to delete the file specified in `file_path` after sending it. It will be deleted even if the file cannot be successfully sent. Defaults to `False`.
+- **retries**: Number of times to retry sending the file if an error is encountered before giving up and sending an error message. Defaults to `3`.
+
+Examples:
+- `await try_upload_file(client, channel, "/home/agu/file.jpg", "My picture")` will send `file.jpg` to channel `channel` with the additional text `My picture`, and without deleting it afterwards,.
+
+- `await try_upload_file(client, channel, "/home/agu/file.jpg", delete_after_send=True)` will send `file.jpg` to channel `channel` without any caption and deleting the file afterwards.
+
+# License
+GPL-3.0
