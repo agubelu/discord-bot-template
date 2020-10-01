@@ -45,4 +45,4 @@ class Random(BaseCommand):
         rolled = randint(lower_bound, upper_bound)
         msg = get_emoji(":game_die:") + f" You rolled {rolled}!"
 
-        await client.send_message(message.channel, msg)
+        await message.channel.send(msg)
