@@ -39,7 +39,7 @@ def main():
         if settings.NOW_PLAYING:
             print("Setting NP game", flush=True)
             await client.change_presence(
-                game=discord.Game(name=settings.NOW_PLAYING))
+                activity=discord.Game(name=settings.NOW_PLAYING))
         print("Logged in!", flush=True)
 
         # Load all events
