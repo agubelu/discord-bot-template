@@ -7,5 +7,5 @@ class BaseEvent:
         self.interval_minutes = interval_minutes
 
     # Every event must override this method
-    async def run(self, client, message):
+    async def run(self, client):
         raise NotImplementedError  # To be defined by every event
