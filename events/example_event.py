@@ -15,7 +15,7 @@ class ExampleEvent(BaseEvent):
 
     # Override the run() method
     # It will be called once every {interval_minutes} minutes
-    async def run(self, client):
+    async def run(self, client, message):
         now = datetime.now()
 
         if now.hour == 12:
@@ -24,4 +24,4 @@ class ExampleEvent(BaseEvent):
             msg = f"It is {now.hour}:{now.minute}"
 
         channel = get_channel(client, "general")
-        await client.send_message(channel, msg)
+        await message.channel.send(msg)
