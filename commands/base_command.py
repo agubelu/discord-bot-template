@@ -1,6 +1,3 @@
-import settings
-
-
 # Base command class
 # Do not modify!
 class BaseCommand:
