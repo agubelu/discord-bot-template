@@ -24,4 +24,4 @@ class ExampleEvent(BaseEvent):
             msg = f"It is {now.hour}:{now.minute}"
 
         channel = get_channel(client, "general")
-        await client.send_message(channel, msg)
+        await channel.send(msg)
